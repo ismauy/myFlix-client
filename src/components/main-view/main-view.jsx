@@ -6,7 +6,8 @@ import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 
 // Import statement to indicate that you need to bundle `./index.scss`
-import '../../index.scss';
+import './main-view.scss';
+import { Col, Row } from 'react-bootstrap';
 
 class MainView extends React.Component {
 
@@ -19,9 +20,8 @@ class MainView extends React.Component {
         };
     }
 
-    // Nuevo desde acá
     componentDidMount() {
-        axios.get('http://localhost:8080/movies')
+        axios.get('https://ismauy-myflix.herokuapp.com/movies')
             .then(response => {
                 this.setState({
                     movies: response.data
@@ -31,7 +31,6 @@ class MainView extends React.Component {
                 console.log(error);
             });
     }
-    // hasta acá
 
     setSelectedMovie(movie) {
         this.setState({
@@ -53,14 +52,22 @@ class MainView extends React.Component {
         if (movies.length === 0) return <div className="main-view" />;
 
         return (
+
             <div className="main-view">
                 {selectedMovie
-                    ? <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
+                    ? (
+                        <Row className="justify-content-md-center">
+                            <Col md={8}>
+                                <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
+                            </Col>
+                        </Row>
+                    )
                     : movies.map(movie => (
-                        <MovieCard key={movie._id} movie={movie} /* onMovieClick={(newSelectedMovie)  => { this.setSelectedMovie(newSelectedMovie) }} */ />
+                        <MovieCard key={movie._id} movie={movie} onMovieClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
                     ))
                 }
             </div>
+
 
         );
     }

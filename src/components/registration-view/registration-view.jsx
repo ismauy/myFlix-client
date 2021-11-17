@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import './registration-view.scss';
 
-export function RegistrationView(props) {
+export function RegistrationView() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -36,3 +37,5 @@ export function RegistrationView(props) {
         </form>
     );
 }
+
+
