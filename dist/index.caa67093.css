@@ -1,8 +1,44 @@
 .my-flix {
   color: steelblue;
 }
+#movieCard {
+  background-color: #e7e3e3;
+}
 
+#text {
+  text-align: center;
+}
+#movieView {
+  background-color: #e7e3e3;
+}
 
+#backButton {
+  background-color: #fafaa5;
+  color: #444343;
+}
 
+#text {
+  text-align: center;
+}
+
+#content {
+  justify-content: right;
+}
+
+.h1 {
+  font-size: large;
+}
+#loginCard {
+  background-color: #e7e3e3;
+}
+
+#button1 {
+  background-color: #fafaa5;
+  color: #444343;
+}
+
+#text {
+  text-align: center;
+}
 
 /*# sourceMappingURL=index.caa67093.css.map */

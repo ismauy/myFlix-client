@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './movie-view.scss';
+import { Col, Row } from 'react-bootstrap';
 
 export class MovieView extends React.Component {
 
@@ -21,11 +22,11 @@ export class MovieView extends React.Component {
         const { movie, onBackClick } = this.props;
 
         return (
-            <div className="movie-view">
-                <div className="movie-poster">
+            <div className="movie-view" id="movieView">
+                <div className="movie-poster" id="text">
                     <img src={movie.ImagePath} />
                 </div>
-                <div className="movie-title">
+                <div className="movie-title, h1" id="text">
                     <span className="label">Title: </span>
                     <span className="value">{movie.Title}</span>
                 </div>
@@ -33,9 +34,12 @@ export class MovieView extends React.Component {
                     <span className="label">Description: </span>
                     <span className="value">{movie.Description}</span>
                 </div>
-                <button onClick={() => { onBackClick(null); }}>Back</button>
+                <div>
+                    <button id="backButton" onClick={() => { onBackClick(null); }}>Back</button>
+                </div>
 
             </div>
+
         );
     }
 }
