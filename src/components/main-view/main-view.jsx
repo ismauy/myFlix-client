@@ -21,8 +21,8 @@ class MainView extends React.Component {
     }
 
     componentDidMount() {
-        // axios.get('https://ismauy-myflix.herokuapp.com/movies')
-        axios.get('http://localhost:8080/movies')
+        axios.get('https://ismauy-myflix.herokuapp.com/movies')
+            // axios.get('http://localhost:8080/movies')
             .then(response => {
                 this.setState({
                     movies: response.data
@@ -39,36 +39,16 @@ class MainView extends React.Component {
         });
     }
 
-    onLoggedIn(authData) {
-        console.log(authData);
-        this.setState({
-            user: authData.user.Username
-        });
-
-        localStorage.setItem('token', authData.token);
-        localStorage.setItem('user', authData.user.Username);
-        this.getMovies(authData.token);
+    onLoggedIn(user) {
+        console.log(user);
     }
 
-    getMovies(token) {
-        axios.get('YOUR_API_URL/movies', {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-            .then(response => {
-                // Assign the result to the state
-                this.setState({
-                    movies: response.data
-                });
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
+
 
     render() {
         const { movies, selectedMovie, user } = this.state;
 
-        // if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+        if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
 
         if (movies.length === 0) return <div className="main-view" />;
 
