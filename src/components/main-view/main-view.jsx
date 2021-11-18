@@ -68,7 +68,7 @@ class MainView extends React.Component {
     render() {
         const { movies, selectedMovie, user } = this.state;
 
-        // if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+        if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
 
         if (movies.length === 0) return <div className="main-view" />;
 

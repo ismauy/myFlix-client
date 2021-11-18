@@ -14,7 +14,7 @@ export function LoginView(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(username, password);
-        axios.post('YOUR_API_URL/login', {
+        axios.post('http://localhost:8080/login', {
             Username: username,
             Password: password
         })
