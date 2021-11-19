@@ -14,6 +14,13 @@ export function LoginView(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(username, password);
+        props.onLoggedIn(username);
+    };
+
+    /* 3.6
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(username, password);
         axios.post('YOUR_API_URL/login', {
             Username: username,
             Password: password
@@ -26,6 +33,7 @@ export function LoginView(props) {
                 console.log('no such user')
             });
     };
+    */
 
     return (
 
@@ -71,6 +79,8 @@ export function LoginView(props) {
 
     );
 }
+
+
 
 LoginView.propTypes = {
     onLoggedIn: PropTypes.func.isRequired

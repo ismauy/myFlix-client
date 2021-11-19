@@ -1,0 +1,57 @@
+#loginCard {
+  background-color: #e7e3e3;
+}
+
+#button1 {
+  background-color: #fafaa5;
+  color: #444343;
+}
+
+#text {
+  text-align: center;
+}
+#movieCard {
+  height: 100%;
+  background-color: #e7e3e3;
+}
+
+#text {
+  text-align: center;
+}
+
+#cardContainer {
+  height: 100%;
+  display: inline-block;
+}
+#movieView {
+  background-color: #e7e3e3;
+}
+
+#backButton {
+  background-color: #fafaa5;
+  color: #444343;
+}
+
+#text {
+  text-align: center;
+}
+
+#content {
+  justify-content: right;
+}
+
+.h1 {
+  font-size: large;
+}
+* {
+  box-sizing: border-box;
+}
+
+.main-view {
+  width: 100%;
+  display: inline-block;
+}
+.my-flix {
+  color: steelblue;
+}
+/*# sourceMappingURL=index.1d334ea1.css.map */

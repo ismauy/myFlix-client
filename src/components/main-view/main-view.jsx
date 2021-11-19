@@ -7,7 +7,7 @@ import { MovieView } from '../movie-view/movie-view';
 
 // Import statement to indicate that you need to bundle `./index.scss`
 import './main-view.scss';
-import { Col, Row } from 'react-bootstrap';
+import { CardGroup, Col, Row } from 'react-bootstrap';
 
 class MainView extends React.Component {
 
@@ -44,7 +44,6 @@ class MainView extends React.Component {
     }
 
 
-
     render() {
         const { movies, selectedMovie, user } = this.state;
 
@@ -53,21 +52,23 @@ class MainView extends React.Component {
         if (movies.length === 0) return <div className="main-view" />;
 
         return (
+            <div className="main-view">
+                <Row className="justify-content-md-center">
+                    {selectedMovie
+                        ? (
+                            <Col md={4}>
+                                <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
+                            </Col>
+                        )
+                        : movies.map(movie => (
+                            <Col md={4} xs={12} key={movie._id}>
+                                <MovieCard key={movie._id} movie={movie} onMovieClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
+                            </Col>
+                        ))
+                    }
+                </Row>
+            </div>
 
-            <Row className="main-view justify-content-md-center">
-                {selectedMovie
-                    ? (
-                        <Col md={8}>
-                            <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
-                        </Col>
-                    )
-                    : movies.map(movie => (
-                        <Col md={3}>
-                            <MovieCard key={movie._id} movie={movie} onMovieClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
-                        </Col>
-                    ))
-                }
-            </Row>
 
         );
     }
