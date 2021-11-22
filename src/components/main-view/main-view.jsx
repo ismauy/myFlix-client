@@ -8,7 +8,7 @@ import { MovieView } from '../movie-view/movie-view';
 
 // Import statement to indicate that you need to bundle `./index.scss`
 import './main-view.scss';
-import { Col, Row } from 'react-bootstrap';
+import { CardGroup, Col, Row } from 'react-bootstrap';
 
 class MainView extends React.Component {
 
@@ -37,15 +37,8 @@ class MainView extends React.Component {
         });
     }
 
-    onLoggedIn(authData) {
-        console.log(authData);
-        this.setState({
-            user: authData.user.Username
-        });
-
-        localStorage.setItem('token', authData.token);
-        localStorage.setItem('user', authData.user.Username);
-        this.getMovies(authData.token);
+    onLoggedIn(user) {
+        console.log(user);
     }
 
     onLoggedOut() {
@@ -85,21 +78,20 @@ class MainView extends React.Component {
                 <Row className="main-view justify-content-md-center">
                     <Route exact path="/" render={() => {
                         return movies.map(m => (
-                            <Col md={3} key={m._id}>
+                            <Col md={4} xs={12} sm={6} lg={3} key={movie._id}>
                                 <MovieCard movie={m} />
                             </Col>
                         ))
                     }} />
                     <Route path="/movies/:movieId" render={({ match }) => {
-                        return <Col md={8}>
+                        return <Col md={4} >
                             <MovieView movie={movies.find(m => m._id === match.params.movieId)} />
                         </Col>
                     }} />
 
                 </Row>
-            </Router>
+            </Router >
 
-            //  <button onClick={() => { this.onLoggedOut() }}>Logout</button>
 
         );
     }
