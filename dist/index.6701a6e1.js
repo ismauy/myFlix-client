@@ -22833,6 +22833,8 @@ class MainView extends _reactDefault.default.Component {
                 }) : movies.map((movie)=>/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
                         md: 4,
                         xs: 12,
+                        sm: 6,
+                        lg: 3,
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
                             lineNumber: 64
