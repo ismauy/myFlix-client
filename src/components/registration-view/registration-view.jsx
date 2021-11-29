@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Card, Row, Col, Form } from 'react-bootstrap';
 import './registration-view.scss';
+import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 export function RegistrationView() {
     const [username, setUsername] = useState('');
@@ -14,6 +16,26 @@ export function RegistrationView() {
         console.log(username, password, email, birthday);
         /* Send a request to the server for authentication */
         /* then call props.onLoggedIn(username) */
+        axios.post('https://ismauy-myflix.herokuapp.com/users', {
+            Username: username,
+            Password: password,
+            Email: email,
+            Birthday: birthday
+        })
+            .then(response => {
+                const data = response.data;
+                console.log(data);
+                window.open('/', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
+            })
+            .catch(e => {
+                console.log(e.response.data)
+                const errors = e.response.data.errors;
+                const message = errors.map(function (error) {
+                    return error['msg'];
+                });
+                console.log(message);
+                alert(message);
+            });
     };
 
     return (
@@ -65,12 +87,7 @@ export function RegistrationView() {
                             </Col>
                         </Row>
                     </Form>
-                    <Row><br></br></Row>
-                    <Row id='text'>
-                        <Col>
-                            <a href="">Register me</a>
-                        </Col>
-                    </Row>
+
                 </Card.Body>
             </Card>
         </Container >

@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import './login-view.scss';
 import { Container, Card, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
 export function LoginView(props) {
@@ -14,7 +15,7 @@ export function LoginView(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(username, password);
-        axios.post('http://localhost:8080/login', {
+        axios.post('https://ismauy-myflix.herokuapp.com/login', {
             Username: username,
             Password: password
         })
@@ -63,7 +64,9 @@ export function LoginView(props) {
                     <Row><br></br></Row>
                     <Row id='text'>
                         <Col>
-                            <a href="">Register me</a>
+                            <Link to={`/register`}>
+                                <Button variant="link">Register</Button>
+                            </Link>
                         </Col>
                     </Row>
                 </Card.Body>

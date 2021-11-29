@@ -43,6 +43,9 @@
 .h1 {
   font-size: large;
 }
+
+
+
 * {
   box-sizing: border-box;
 }
@@ -51,6 +54,7 @@
   width: 100%;
   display: inline-block;
 }
+
 .my-flix {
   color: steelblue;
 }
