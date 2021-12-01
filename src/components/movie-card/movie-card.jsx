@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import './movie-card.scss';
-import { Container } from 'react-bootstrap';
+import { Container, Row, Col, CardGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export class MovieCard extends React.Component {
 
@@ -12,19 +13,35 @@ export class MovieCard extends React.Component {
         const { movie } = this.props;
 
         return (
-            <Container id='cardContainer'>
-                <Card id='movieCard'>
-                    <Card.Img variant="top" crossOrigin="anonymous" src={movie.ImagePath} />
-                    <Card.Body>
-                        <Card.Title>{movie.Title}</Card.Title>
-                        <Card.Text>{movie.Description}</Card.Text>
-                        <Link to={`/movies/${movie._id}`}>
-                            <Button variant="link">Open</Button>
-                        </Link>
-                    </Card.Body>
-                </Card>
-
-            </Container >
+            <div className="mv_card">
+                <Container className="moviecardContainer" style={{ display: "inline" }}>
+                    <Row>
+                        <Col>
+                            <CardGroup>
+                                <Card className="main_img">
+                                    <Card.Img
+                                        crossOrigin="anonymous"
+                                        className="movie_img"
+                                        variant="top"
+                                        src={movie.ImagePath}
+                                    />
+                                    <Card.Body style={{ textAlign: "center" }} >
+                                        <Card.Title className="movie_title">
+                                            {movie.Title}
+                                        </Card.Title>
+                                        <div className="movie_genre">{movie.Genre.Name}</div>
+                                        <Link to={`/movies/${movie._id}`}>
+                                            <Button className="button" variant="link" size="md">
+                                                Open
+                                            </Button>
+                                        </Link>
+                                    </Card.Body>
+                                </Card>
+                            </CardGroup>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
 
         );
     }

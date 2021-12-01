@@ -1,15 +1,35 @@
-#movieCard {
-    height: 100%;
-    background-color: rgb(231, 227, 227);
+.movie_genre {
+    font-size: smaller;
+    font-style: italic;
+    text-align: center;
+    color: #f4ddd5;
+    margin-bottom: 10px;
     }
     
-
-    
-#text {
-        text-align: center;
+    .main_img {
+    height: 520px !important;
+    text-align: center;
+    padding: 10px;
+    background-color: white !important;
     }
-
-#cardContainer {
-    height: 100%;
-    display: inline-block;
-}
+    
+    .movie_title {
+    height: 60px;
+    text-align: center;
+    background-color: #e3e9e1;
+    color: rgb(54, 54, 53) !important;
+    padding: 10px;
+    }
+    
+    /* .button {
+    background-color: #fdc689 !important;
+    } */
+    
+    .mv_card {
+    margin-top: 50px;
+    }
+    
+    .movie_img {
+    width: 100% !important;
+    height: 320px !important;
+    }

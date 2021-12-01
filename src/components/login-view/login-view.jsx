@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 export function LoginView(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMsg, setErrorMsg] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,10 +22,12 @@ export function LoginView(props) {
         })
             .then(response => {
                 const data = response.data;
+                setErrorMsg(null);
                 props.onLoggedIn(data);
             })
             .catch(e => {
-                console.log('no such user')
+                console.log(e.response.data)
+                setErrorMsg('Invalid User or Password');
             });
     };
 
@@ -53,6 +56,13 @@ export function LoginView(props) {
                             </Col>
                         </Row>
                         <Row><br></br></Row>
+                        {errorMsg ?
+                            <Fragment>
+                                <Row style={{ backgroundColor: '#F1948A', textAlign: 'center', margin: '10px' }}>
+                                    <span>{errorMsg}</span>
+
+                                </Row> <Row><br></br></Row> </Fragment> : ""
+                        }
                         <Row id='text'>
                             <Col>
                                 <Button variant="primary" type="submit" onClick={handleSubmit} id='button1'>

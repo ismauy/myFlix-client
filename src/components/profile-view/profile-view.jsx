@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Container, Card, Row, Col, Form } from 'react-bootstrap';
 import './profile-view.scss';
 import Button from 'react-bootstrap/Button';
@@ -17,7 +17,8 @@ export class ProfileView extends React.Component {
             Password: null,
             Email: null,
             Birthday: null,
-            FavoriteMovies: []
+            FavoriteMovies: [],
+            errorMsg: null
         };
     }
 
@@ -114,15 +115,25 @@ export class ProfileView extends React.Component {
                     Username: response.data.Username,
                     Password: response.data.Password,
                     Email: response.data.Email,
-                    Birthday: response.data.Birthday
+                    Birthday: response.data.Birthday,
+                    errorMsg: null
                 });
                 localStorage.setItem('user', this.state.Username);
                 const data = response.data;
+                console.log(data);
                 alert("Done!");
             })
-            .catch(function (error) {
-                console.log(error);
-            })
+            .catch(e => {
+                console.log(e.response.data)
+                const errors = e.response.data.errors;
+                const message = errors.map(function (error) {
+                    return error['msg'] + ' - ';
+                });
+                console.log(message);
+                this.setState({
+                    errorMsg: message
+                });
+            });
     }
 
     setUsername(value) {
@@ -143,6 +154,10 @@ export class ProfileView extends React.Component {
 
     setFavoriteMovies(value) {
         this.state.FavoriteMovies = value;
+    }
+
+    setErrorMsg(value) {
+        this.state.errorMsg = value;
     }
 
     render() {
@@ -218,11 +233,18 @@ export class ProfileView extends React.Component {
                                 <Col>
                                     <Form.Group controlId="formBirthday">
                                         <Form.Label>Birthday: </Form.Label>
-                                        <Form.Control placeholder="New Birthday" type="text" onChange={e => this.setBirthday(e.target.value)} />
+                                        <Form.Control placeholder="New Birthday" type="date" onChange={e => this.setBirthday(e.target.value)} />
                                     </Form.Group>
                                 </Col>
                             </Row>
                             <Row><br></br></Row>
+                            {this.state.errorMsg ?
+                                <Fragment>
+                                    <Row style={{ backgroundColor: '#F1948A', textAlign: 'center', margin: '10px' }}>
+                                        <span>{this.state.errorMsg}</span>
+
+                                    </Row> <Row><br></br></Row> </Fragment> : ""
+                            }
                             <Row id='text'>
                                 <Col>
                                     <Button variant="primary" type="submit" id='button1'>

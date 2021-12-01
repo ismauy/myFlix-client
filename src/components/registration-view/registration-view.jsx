@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Container, Card, Row, Col, Form } from 'react-bootstrap';
 import './registration-view.scss';
 import Button from 'react-bootstrap/Button';
@@ -9,7 +9,7 @@ export function RegistrationView() {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [birthday, setBirthday] = useState('');
-
+    const [errorMsg, setErrorMsg] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,16 +25,17 @@ export function RegistrationView() {
             .then(response => {
                 const data = response.data;
                 console.log(data);
+                setErrorMsg(null);
                 window.open('/', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
             })
             .catch(e => {
                 console.log(e.response.data)
                 const errors = e.response.data.errors;
                 const message = errors.map(function (error) {
-                    return error['msg'];
+                    return error['msg'] + ' - ';
                 });
                 console.log(message);
-                alert(message);
+                setErrorMsg(message);
             });
     };
 
@@ -74,11 +75,18 @@ export function RegistrationView() {
                             <Col>
                                 <Form.Group controlId="formBirthday">
                                     <Form.Label>Birthday: </Form.Label>
-                                    <Form.Control type="text" value={birthday} onChange={e => setBirthday(e.target.value)} />
+                                    <Form.Control type="date" value={birthday} onChange={e => setBirthday(e.target.value)} />
                                 </Form.Group>
                             </Col>
                         </Row>
                         <Row><br></br></Row>
+                        {errorMsg ?
+                            <Fragment>
+                                <Row style={{ backgroundColor: '#F1948A', textAlign: 'center', margin: '10px' }}>
+                                    <span>{errorMsg}</span>
+
+                                </Row> <Row><br></br></Row> </Fragment> : ""
+                        }
                         <Row id='text'>
                             <Col>
                                 <Button variant="primary" type="submit" onClick={handleSubmit} id='button1'>

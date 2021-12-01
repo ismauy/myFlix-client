@@ -1,26 +1,96 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Row, Col } from 'react-bootstrap';
 import './movie-view.scss';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export class MovieView extends React.Component {
 
+    constructor() {
+        super();
 
-    keypressCallback(event) {
-        console.log(event.key);
+        this.state = {
+            UserId: null,
+            FavoriteMovies: []
+        };
     }
 
     componentDidMount() {
-        document.addEventListener('keypress', this.keypressCallback);
+        const token = localStorage.getItem('token');
+        this.getUserData(token);
     }
 
-    componentWillUnmount() {
-        document.removeEventListener('keypress', this.keypressCallback);
+    getUserData(token) {
+        const username = localStorage.getItem('user');
+
+        axios.get(`https://ismauy-myflix.herokuapp.com/users/${username} `, {
+            // axios.get('http://localhost:8080/users', {
+            headers: { Authorization: `Bearer ${token} ` }
+        })
+            .then(response => {
+                // Assign the result to the state
+                console.log(response.data);
+                this.setState({
+                    UserId: response.data._id,
+                    FavoriteMovies: response.data.FavoriteMovies
+                });
+
+            })
+
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
+
+    removeFavoriteMovie(e, movie) {
+        console.log(movie);
+        e.preventDefault();
+        const token = localStorage.getItem('token');
+
+        axios.delete(`https://ismauy-myflix.herokuapp.com/users/${this.state.UserId}/favorites/${movie._id}`,
+            {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            .then((response) => {
+                console.log(response.data);
+                this.componentDidMount();
+                alert("Movie Removed!");
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
+
+    }
+
+
+    addFavoriteMovie(e, movie) {
+        console.log(movie);
+        e.preventDefault();
+        const token = localStorage.getItem('token');
+
+        axios.patch(`https://ismauy-myflix.herokuapp.com/users/${this.state.UserId}/favorites/${movie._id}`,
+            {},
+            {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            .then((response) => {
+                console.log(response.data);
+                this.componentDidMount();
+                alert("Movie Added!");
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
+
     }
 
     render() {
         const { movie, onBackClick } = this.props;
+        const isFavorite = this.state.FavoriteMovies.some(m => m === movie._id);
+
 
         return (
 
@@ -31,15 +101,28 @@ export class MovieView extends React.Component {
                     <Card.Text>
                         {movie.Description}
                     </Card.Text>
-                    <Link to={`/directors/${movie.Director.Name}`}>
-                        <Button variant="link">Director</Button>
-                    </Link>
+                    <Row>
+                        <Link to={`/directors/${movie.Director.Name}`}>
+                            <Button variant="link">Director</Button>
+                        </Link>
 
-                    <Link to={`/genres/${movie.Genre.Name}`}>
-                        <Button variant="link">Genre</Button>
-                    </Link>
-                    <Button variant="primary" onClick={() => { onBackClick(null); }}>Back</Button>
+                        <Link to={`/genres/${movie.Genre.Name}`}>
+                            <Button variant="link">Genre</Button>
+                        </Link>
+                    </Row>
+                    <Row>
+                        <Col>
+                            {isFavorite ?
+                                <Button variant="danger" onClick={e => this.removeFavoriteMovie(e, movie)}>Remove Favorite</Button> :
+                                <Button variant="primary" onClick={e => this.addFavoriteMovie(e, movie)}>Add Favorite</Button>
+                            }
+                        </Col>
+                        <Col>
+                            <Button variant="secondary" onClick={() => { onBackClick(null); }}>Back</Button>
+                        </Col>
+                    </Row>
                 </Card.Body>
+
             </Card>
 
         );
