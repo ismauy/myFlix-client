@@ -13,7 +13,6 @@ export function RegistrationView() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(username, password, email, birthday);
         /* Send a request to the server for authentication */
         /* then call props.onLoggedIn(username) */
         axios.post('https://ismauy-myflix.herokuapp.com/users', {
@@ -24,7 +23,6 @@ export function RegistrationView() {
         })
             .then(response => {
                 const data = response.data;
-                console.log(data);
                 setErrorMsg(null);
                 window.open('/', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
             })
@@ -34,7 +32,6 @@ export function RegistrationView() {
                 const message = errors.map(function (error) {
                     return error['msg'] + ' - ';
                 });
-                console.log(message);
                 setErrorMsg(message);
             });
     };

@@ -43,7 +43,6 @@ class MainView extends React.Component {
     }
 
     onLoggedIn(authData) {
-        console.log(authData);
         this.setState({
             user: authData.user.Username
         });
@@ -86,7 +85,7 @@ class MainView extends React.Component {
             <Router>
                 <Navbar>
                     <Container>
-                        <Navbar.Brand href="#home">{user ? <span> myFlix app </span> : <span> Welcome to myFlix Movies App </span>} </Navbar.Brand>
+                        <Navbar.Brand>{user ? <Link style={{ textDecoration: 'none', color: 'black' }} to={'/'}><span> myFlix app </span></Link> : <span> Welcome to myFlix Movies App </span>} </Navbar.Brand>
                         <Navbar.Toggle />
                         <Navbar.Collapse className="justify-content-end">
                             <Navbar.Text>
@@ -110,7 +109,7 @@ class MainView extends React.Component {
                             </Col>
                             if (movies.length === 0) return <div className="main-view" />;
                             return movies.map(m => (
-                                <Col md={3}>
+                                <Col md={3} key={m._id}>
                                     <MovieCard movie={m} />
                                 </Col>
                             ))

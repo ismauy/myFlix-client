@@ -15,7 +15,6 @@ export function LoginView(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(username, password);
         axios.post('https://ismauy-myflix.herokuapp.com/login', {
             Username: username,
             Password: password
@@ -26,7 +25,6 @@ export function LoginView(props) {
                 props.onLoggedIn(data);
             })
             .catch(e => {
-                console.log(e.response.data)
                 setErrorMsg('Invalid User or Password');
             });
     };

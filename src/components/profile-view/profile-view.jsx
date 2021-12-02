@@ -13,12 +13,15 @@ export class ProfileView extends React.Component {
 
         this.state = {
             UserId: null,
-            Username: null,
-            Password: null,
-            Email: null,
-            Birthday: null,
+            Username: '',
+            Password: '',
+            Email: '',
+            Birthday: '',
             FavoriteMovies: [],
-            errorMsg: null
+            errorMsg: null,
+            UsernameLabel: null,
+            EmailLabel: null,
+            BirthdayLabel: null
         };
     }
 
@@ -37,13 +40,15 @@ export class ProfileView extends React.Component {
         })
             .then(response => {
                 // Assign the result to the state
-                console.log(response.data);
                 this.setState({
-                    UserId: response.data._id,
-                    Username: response.data.Username,
+                    Username: '',
                     Password: '',
-                    Email: response.data.Email,
-                    Birthday: response.data.Birthday,
+                    Email: '',
+                    Birthday: '',
+                    UserId: response.data._id,
+                    UsernameLabel: response.data.Username,
+                    EmailLabel: response.data.Email,
+                    BirthdayLabel: response.data.Birthday,
                     FavoriteMovies: response.data.FavoriteMovies
                 });
 
@@ -55,7 +60,6 @@ export class ProfileView extends React.Component {
     };
 
     removeFavoriteMovie(e, movie) {
-        console.log(movie);
         e.preventDefault();
         const token = localStorage.getItem('token');
 
@@ -64,7 +68,6 @@ export class ProfileView extends React.Component {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then((response) => {
-                console.log(response.data);
                 this.componentDidMount();
                 alert("Movie Removed!");
             })
@@ -83,7 +86,6 @@ export class ProfileView extends React.Component {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then((response) => {
-                console.log(response.data);
                 alert("User Removed!");
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
@@ -112,24 +114,24 @@ export class ProfileView extends React.Component {
             })
             .then((response) => {
                 this.setState({
-                    Username: response.data.Username,
-                    Password: response.data.Password,
-                    Email: response.data.Email,
-                    Birthday: response.data.Birthday,
-                    errorMsg: null
+                    Username: '',
+                    Password: '',
+                    Email: '',
+                    Birthday: '',
+                    UserId: response.data._id,
+                    UsernameLabel: response.data.Username,
+                    EmailLabel: response.data.Email,
+                    BirthdayLabel: response.data.Birthday
                 });
-                localStorage.setItem('user', this.state.Username);
+                localStorage.setItem('user', this.state.UsernameLabel);
                 const data = response.data;
-                console.log(data);
                 alert("Done!");
             })
             .catch(e => {
-                console.log(e.response.data)
                 const errors = e.response.data.errors;
                 const message = errors.map(function (error) {
                     return error['msg'] + ' - ';
                 });
-                console.log(message);
                 this.setState({
                     errorMsg: message
                 });
@@ -137,27 +139,27 @@ export class ProfileView extends React.Component {
     }
 
     setUsername(value) {
-        this.state.Username = value;
+        this.setState({ Username: value });
     }
 
     setPassword(value) {
-        this.state.Password = value;
+        this.setState({ Password: value });
     }
 
     setEmail(value) {
-        this.state.Email = value;
+        this.setState({ Email: value });
     }
 
     setBirthday(value) {
-        this.state.Birthday = value;
+        this.setState({ Birthday: value });
     }
 
     setFavoriteMovies(value) {
-        this.state.FavoriteMovies = value;
+        this.setState({ FavoriteMovies: value });
     }
 
     setErrorMsg(value) {
-        this.state.errorMsg = value;
+        this.setState({ ErrorMsg: value });
     }
 
     render() {
@@ -179,26 +181,26 @@ export class ProfileView extends React.Component {
                             <span>Profile</span>
                         </Card.Title>
                         <Card.Text>
-                            <div>
-                                <span>Username: </span>
-                                <span>{this.state.Username}</span>
-                            </div>
+
+                            <span>Username: </span>
+                            <span>{this.state.UsernameLabel}</span>
+
                         </Card.Text>
                         <Card.Text>
-                            <div>
-                                <span>Email: </span>
-                                <span>{this.state.Email}</span>
-                            </div>
+
+                            <span>Email: </span>
+                            <span>{this.state.EmailLabel}</span>
+
                         </Card.Text>
                         <Card.Text>
-                            <div>
-                                <span>Birthday: </span>
-                                <span>{this.state.Birthday}</span>
-                            </div>
+
+                            <span>Birthday: </span>
+                            <span>{this.state.BirthdayLabel}</span>
+
                         </Card.Text>
-                        <div>
-                            <Button variant="danger" onClick={() => this.removeUser()} >Delete User</Button>
-                        </div>
+
+                        <Button variant="danger" onClick={() => this.removeUser()} >Delete User</Button>
+
                     </Card.Body>
                 </Card>
                 <Card id='loginCard'>

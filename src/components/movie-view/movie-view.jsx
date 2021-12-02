@@ -30,7 +30,6 @@ export class MovieView extends React.Component {
         })
             .then(response => {
                 // Assign the result to the state
-                console.log(response.data);
                 this.setState({
                     UserId: response.data._id,
                     FavoriteMovies: response.data.FavoriteMovies
@@ -44,7 +43,6 @@ export class MovieView extends React.Component {
     };
 
     removeFavoriteMovie(e, movie) {
-        console.log(movie);
         e.preventDefault();
         const token = localStorage.getItem('token');
 
@@ -53,7 +51,6 @@ export class MovieView extends React.Component {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then((response) => {
-                console.log(response.data);
                 this.componentDidMount();
                 alert("Movie Removed!");
             })
@@ -66,7 +63,6 @@ export class MovieView extends React.Component {
 
 
     addFavoriteMovie(e, movie) {
-        console.log(movie);
         e.preventDefault();
         const token = localStorage.getItem('token');
 
@@ -76,7 +72,6 @@ export class MovieView extends React.Component {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then((response) => {
-                console.log(response.data);
                 this.componentDidMount();
                 alert("Movie Added!");
             })
