@@ -4,75 +4,46 @@ import { Card, Button, Row, Col } from 'react-bootstrap';
 import './movie-view.scss';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { setUser } from '../../actions/actions';
 
-export class MovieView extends React.Component {
+
+class MovieView extends React.Component {
 
     constructor() {
         super();
-
-        this.state = {
-            UserId: null,
-            FavoriteMovies: []
-        };
     }
 
-    componentDidMount() {
-        const token = localStorage.getItem('token');
-        this.getUserData(token);
-    }
-
-    getUserData(token) {
-        const username = localStorage.getItem('user');
-
-        axios.get(`https://ismauy-myflix.herokuapp.com/users/${username} `, {
-            // axios.get('http://localhost:8080/users', {
-            headers: { Authorization: `Bearer ${token} ` }
-        })
-            .then(response => {
-                // Assign the result to the state
-                this.setState({
-                    UserId: response.data._id,
-                    FavoriteMovies: response.data.FavoriteMovies
-                });
-
-            })
-
-            .catch(function (error) {
-                console.log(error);
-            });
-    };
-
-    removeFavoriteMovie(e, movie) {
+    removeFavoriteMovie(e, movie, user) {
         e.preventDefault();
         const token = localStorage.getItem('token');
 
-        axios.delete(`https://ismauy-myflix.herokuapp.com/users/${this.state.UserId}/favorites/${movie._id}`,
+        axios.delete(`https://ismauy-myflix.herokuapp.com/users/${user._id}/favorites/${movie._id}`,
             {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then((response) => {
-                this.componentDidMount();
+                const modifiedUser = response.data;
+                this.props.setUser(modifiedUser);
                 alert("Movie Removed!");
             })
             .catch(function (error) {
                 console.log(error);
             })
-
-
     }
 
-
-    addFavoriteMovie(e, movie) {
+    addFavoriteMovie(e, movie, user) {
         e.preventDefault();
         const token = localStorage.getItem('token');
 
-        axios.patch(`https://ismauy-myflix.herokuapp.com/users/${this.state.UserId}/favorites/${movie._id}`,
+        axios.patch(`https://ismauy-myflix.herokuapp.com/users/${user._id}/favorites/${movie._id}`,
             {},
             {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then((response) => {
-                this.componentDidMount();
+                const modifiedUser = response.data;
+                this.props.setUser(modifiedUser);
                 alert("Movie Added!");
             })
             .catch(function (error) {
@@ -83,8 +54,8 @@ export class MovieView extends React.Component {
     }
 
     render() {
-        const { movie, onBackClick } = this.props;
-        const isFavorite = this.state.FavoriteMovies.some(m => m === movie._id);
+        const { movie, onBackClick, user } = this.props;
+        const isFavorite = user.FavoriteMovies.some(m => m === movie._id);
 
 
         return (
@@ -108,8 +79,8 @@ export class MovieView extends React.Component {
                     <Row>
                         <Col>
                             {isFavorite ?
-                                <Button variant="danger" onClick={e => this.removeFavoriteMovie(e, movie)}>Remove Favorite</Button> :
-                                <Button variant="primary" onClick={e => this.addFavoriteMovie(e, movie)}>Add Favorite</Button>
+                                <Button variant="danger" onClick={e => this.removeFavoriteMovie(e, movie, user)}>Remove Favorite</Button> :
+                                <Button variant="primary" onClick={e => this.addFavoriteMovie(e, movie, user)}>Add Favorite</Button>
                             }
                         </Col>
                         <Col>
@@ -125,8 +96,6 @@ export class MovieView extends React.Component {
 }
 
 
-
-
 MovieView.propTypes = {
     movie: PropTypes.shape({
         Title: PropTypes.string.isRequired,
@@ -134,3 +103,10 @@ MovieView.propTypes = {
     }).isRequired,
     onBackClick: PropTypes.func.isRequired
 };
+
+
+let mapStateToProps = state => {
+    return { user: state.user }
+}
+
+export default connect(mapStateToProps, { setUser })(MovieView);

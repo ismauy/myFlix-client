@@ -10,6 +10,26 @@
 #text {
   text-align: center;
 }
+#movieView {
+  background-color: #e7e3e3;
+}
+
+#backButton {
+  background-color: #fafaa5;
+  color: #444343;
+}
+
+#text {
+  text-align: center;
+}
+
+#content {
+  justify-content: right;
+}
+
+.h1 {
+  font-size: large;
+}
 .movie_genre {
   font-size: smaller;
   font-style: italic;
@@ -43,26 +63,6 @@ background-color: #fdc689 !important;
 .movie_img {
   width: 100% !important;
   height: 320px !important;
-}
-#movieView {
-  background-color: #e7e3e3;
-}
-
-#backButton {
-  background-color: #fafaa5;
-  color: #444343;
-}
-
-#text {
-  text-align: center;
-}
-
-#content {
-  justify-content: right;
-}
-
-.h1 {
-  font-size: large;
 }
 
 
